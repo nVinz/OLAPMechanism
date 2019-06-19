@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/all">
+        <file>Resources/csv.png</file>
+        <file>Resources/xls.png</file>
+        <file>Resources/xml.png</file>
+        <file>Resources/power-button.png</file>
+        <file>Resources/switch.png</file>
+    </qresource>
+</RCC>

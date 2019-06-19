@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TopNode CountNodes="1">
+  <Node0 Top="-1" Left="-1" Right="-1" Bottom="-1" NameNode="Top" Condition="0" CountProp="1" NumberNode="0">
+    <Name1>Название узла</Name1>
+    <Prop1>Top</Prop1>
+  </Node0>
+</TopNode>
