@@ -31,11 +31,14 @@ private slots:
     void add_node();
     void add_node_data();
     void update_data_table();
+    void update_data2_table();
     void add_tree_item(Node node_);
 
     void on_treeWidget_2_itemClicked(QTreeWidgetItem *item, int column);
 
     QStringList make_cross(QStringList a, QStringList b);
+
+    void on_action_settings_triggered();
 
 private:
     Ui::MainWindow *ui;

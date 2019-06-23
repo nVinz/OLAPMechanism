@@ -30,19 +30,22 @@ SOURCES += \
     node.cpp \
     addnodewidget.cpp \
     globals.cpp \
-    adddatawidget.cpp
+    adddatawidget.cpp \
+    settingswindow.cpp
 
 HEADERS += \
         mainwindow.h \
     node.h \
     addnodewidget.h \
     globals.h \
-    adddatawidget.h
+    adddatawidget.h \
+    settingswindow.h
 
 FORMS += \
         mainwindow.ui \
     addnodewidget.ui \
-    adddatawidget.ui
+    adddatawidget.ui \
+    settingswindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

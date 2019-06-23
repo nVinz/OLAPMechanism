@@ -3,6 +3,7 @@
 #include "globals.h"
 
 #include "adddatawidget.h"
+#include "settingswindow.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -38,6 +39,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tableWidget_data->setColumnCount(2);
     QStringList header_list = {"Название свойства", "Значение свойства"};
     ui->tableWidget_data->setHorizontalHeaderLabels(header_list);
+    ui->tableWidget_data->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    ui->tableWidget_filter->setColumnCount(2);
+    QStringList header_list2 = {"Название фильтра", "Значение фильтра"};
+    ui->tableWidget_filter->setHorizontalHeaderLabels(header_list2);
+    ui->tableWidget_filter->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
 
     connect(ui->treeWidget, SIGNAL(customContextMenuRequested(const QPoint &)),
             this, SLOT(on_treeWidget_customContextMenuRequested(const QPoint &)));
@@ -148,6 +156,7 @@ void MainWindow::load_CSV()
     QTreeWidgetItem *treeItemBasic = new QTreeWidgetItem(ui->treeWidget);
     treeItemBasic->setText(0, "Top");
 
+    //ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -221,6 +230,7 @@ void MainWindow::add_node_data()
     AddDataWidget *data_widget = new AddDataWidget(nullptr, ui->treeWidget->currentItem());
     data_widget->show();
     connect(data_widget, SIGNAL(send_add_data()), this, SLOT(update_data_table()));
+    update_data_table();
 }
 
 void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
@@ -231,13 +241,13 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
 
 void MainWindow::update_data_table()
 {
-    ui->tableWidget_data->setRowCount(0);
+    ui->tableWidget_data->setRowCount(1);
 
     for (auto it = nodes.cbegin(); it != nodes.cend(); it++)
     {
         if (it->name == current_node)
         {
-            ui->tableWidget_data->insertRow(ui->tableWidget_data->rowCount());
+            //ui->tableWidget_data->insertRow(ui->tableWidget_data->rowCount());
 
             int r=0, c=0;
 
@@ -255,9 +265,12 @@ void MainWindow::update_data_table()
                     ui->tableWidget_data->insertRow(ui->tableWidget_data->rowCount());
                 }
             }
+
+            ui->tableWidget_data->removeRow(ui->tableWidget_data->rowCount()-1);
         }
     }
 }
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -282,6 +295,7 @@ QStringList MainWindow::make_cross(QStringList a, QStringList b)
 void MainWindow::on_button_maketree_clicked()
 {
     ui->treeWidget_2->clear();
+    int parc=0;
 
     QTreeWidgetItem *BaseItem = new QTreeWidgetItem(ui->treeWidget_2);
     BaseItem->setText(0, "Top");
@@ -314,24 +328,35 @@ void MainWindow::on_button_maketree_clicked()
                         QTreeWidgetItem *item = new QTreeWidgetItem();
                         item->setText(0, node_it->data.first() + ": " + *it);
                         BaseItem->addChild(item);
+                        parc++;
                     }
                 }
                 else
                 {
-                    QStringList list = make_cross(node_it->parent_.first().data, node_it->data);
-
-                    for (auto it = list.begin(); it != list.end(); it++)
+                    QTreeWidgetItemIterator it(BaseItem);
+                    for (int i=0; i<parc; i++)
                     {
-                        it++;
+                        QList<QTreeWidgetItem*> items = ui->treeWidget_2->findItems(node_it->parent_.first().data[i+1], Qt::MatchContains | Qt::MatchRecursive);
+
+                        foreach(QTreeWidgetItem* it4, items)
+                        {
+                            QTreeWidgetItem *item = new QTreeWidgetItem();
+                            item->setText(0, node_it->data.first() + ": " + node_it->data[i+1]);
+                            it4->addChild(item);
+                        }
+
+                        ++it;
+                    }
+                    /*QStringList list = make_cross(node_it->parent_.first().data, node_it->data);
+
+                    for (auto it = list.begin(); it != list.end(); it+=2)
+                    {
                         qDebug() << *it;
                         QTreeWidgetItem *item = new QTreeWidgetItem();
                         item->setText(0, node_it->data.first() + ": " + *it);
                         BaseItem->addChild(item);
-                    }
+                    }*/
                 }
-
-
-
             }
         }
     //}
@@ -409,8 +434,47 @@ void MainWindow::on_button_maketree_clicked()
 void MainWindow::on_treeWidget_2_itemClicked(QTreeWidgetItem *item, int column)
 {
     current_node = item->text(column);
-    update_data_table();
+    update_data2_table();
 }
 
+void MainWindow::update_data2_table()
+{
+    ui->tableWidget_data->setRowCount(1);
+
+    for (auto it = nodes.cbegin(); it != nodes.cend(); it++)
+    {
+        if (it->name == current_node)
+        {
+            //ui->tableWidget_data->insertRow(ui->tableWidget_data->rowCount());
+
+            int r=0, c=0;
+
+            for (auto it2 = it->params.cbegin(); it2 != it->params.cend(); it2++)
+            {
+                QTableWidgetItem *item = new QTableWidgetItem;
+                item->setText(*it2);
+                ui->tableWidget_data->setItem(r, c, item);
+
+                qDebug() << *it2;
+
+                c++;
+
+                if(c>1)
+                {
+                    c=0; r++;
+                    ui->tableWidget_data->insertRow(ui->tableWidget_data->rowCount());
+                }
+            }
+
+            ui->tableWidget_data->removeRow(ui->tableWidget_data->rowCount()-1);
+        }
+    }
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_action_settings_triggered()
+{
+    SettingsWindow *sw = new SettingsWindow;
+    sw->show();
+}

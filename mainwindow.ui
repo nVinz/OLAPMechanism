@@ -10,6 +10,11 @@
     <height>412</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Verdana</family>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
@@ -18,7 +23,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget_left">
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_table">
        <attribute name="title">
@@ -37,6 +42,11 @@
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="0" column="0">
          <widget class="QTreeWidget" name="treeWidget">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <column>
            <property name="text">
             <string notr="true">1</string>
@@ -60,6 +70,11 @@
        <layout class="QGridLayout" name="gridLayout_4">
         <item row="0" column="0">
          <widget class="QTreeWidget" name="treeWidget_2">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <column>
            <property name="text">
             <string notr="true">1</string>
@@ -82,7 +97,13 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout_5">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="tableWidget_data"/>
+         <widget class="QTableWidget" name="tableWidget_data">
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -90,6 +111,11 @@
        <attribute name="title">
         <string>Страница</string>
        </attribute>
+       <layout class="QGridLayout" name="gridLayout_6">
+        <item row="0" column="0">
+         <widget class="QTableWidget" name="tableWidget_filter"/>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
@@ -115,16 +141,11 @@
      <addaction name="action_add_csv"/>
      <addaction name="action_add_xml"/>
      <addaction name="action_add_xls"/>
-    </widget>
-    <widget class="QMenu" name="menu_2">
-     <property name="title">
-      <string>Пишите здесь</string>
-     </property>
+     <addaction name="action_DB"/>
     </widget>
     <addaction name="menu_3"/>
     <addaction name="separator"/>
     <addaction name="action_exit"/>
-    <addaction name="menu_2"/>
    </widget>
    <widget class="QMenu" name="menu_4">
     <property name="title">
@@ -145,6 +166,7 @@
    <addaction name="action_add_csv"/>
    <addaction name="action_add_xml"/>
    <addaction name="action_add_xls"/>
+   <addaction name="action_DB"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="action_add_csv">
@@ -190,6 +212,15 @@
    </property>
    <property name="text">
     <string>Настройки файла</string>
+   </property>
+  </action>
+  <action name="action_DB">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/all/Resources/db.png</normaloff>:/all/Resources/db.png</iconset>
+   </property>
+   <property name="text">
+    <string>База данных</string>
    </property>
   </action>
  </widget>

@@ -6,6 +6,7 @@
 
 extern QStringList data_table_header;
 extern QList<Node> nodes;
+extern QList<Node> nodes2;
 extern QString current_node;
 extern QList<QStringList> table_data;
 
